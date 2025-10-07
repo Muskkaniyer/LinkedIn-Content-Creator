@@ -80,6 +80,47 @@ The AI agent follows an internal SOP (Standard Operating Procedure):
 4. **Update Google Sheet**  
    - Writes post content and changes status to “Done”.
 
+
+
+## 🔑 API Keys Setup
+
+This workflow requires **three APIs** to function properly.  
+Follow the quick steps below to connect them inside **n8n** before running the LinkedIn Content Creator workflow.
+
+| Service | Usage | Setup Steps |
+|:--|:--|:--|
+| 🧠 **OpenAI API Key** | Used by GPT-5 model for AI text generation | 1. Go to your [OpenAI Dashboard](https://platform.openai.com/account/api-keys)  <br>2. Create a new **Secret Key**  <br>3. In n8n → *Credentials* → **OpenAI API** → Paste your key |
+| 🌐 **Tavily API Key** | Fetches top 3 web articles related to each LinkedIn topic | 1. Sign up at [Tavily](https://app.tavily.com)  <br>2. Copy your **Bearer Token**  <br>3. In n8n → *HTTP Request node* → under **Headers**, set  <br>`Authorization: Bearer YOUR_KEY` |
+| 📊 **Google Sheets OAuth2** | Reads & updates your LinkedIn Topics Sheet | 1. Go to [Google Cloud Console](https://console.cloud.google.com/)  <br>2. Enable **Google Sheets API**  <br>3. Create **OAuth2 credentials**  <br>4. In n8n → *Credentials* → **Google Sheets OAuth2** → Connect your account |
+
+> ⚙️ Once these credentials are connected, the workflow will automatically:
+> - Fetch trending topics from Google Sheets  
+> - Gather top insights via Tavily  
+> - Generate polished LinkedIn posts with OpenAI GPT-5  
+
+---
+
+### ✅ Example Credential Mapping in n8n
+
+| Node | Credential Type | Connected Account |
+|:--|:--|:--|
+| OpenAI (Generate Post) | OpenAI API | `openai_gpt5_key` |
+| Tavily (Fetch Trends) | HTTP Request | `tavily_bearer_token` |
+| Google Sheets (Update Topics) | Google Sheets OAuth2 | `linkedin_sheets_auth` |
+
+---
+
+### 💡 Pro Tip
+Use **Environment Variables** in n8n for better security:  
+```bash
+OPENAI_API_KEY=sk-xxxxx
+TAVILY_API_KEY=tavily-xxxxx
+GOOGLE_CLIENT_ID=xxxxx.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=xxxxx
+```
+
+
+
 ---
 
 ## 🧩 Import the Workflow to n8n
